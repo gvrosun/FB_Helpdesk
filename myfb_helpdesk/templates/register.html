@@ -14,7 +14,7 @@
                     <div class="card-title text-center">
                         <h5 class="mt-5">HEY, THERE</h5> <small class="para">Login to your FB_Helper_desk account below.</small>
                     </div>
-                    <form class="signup" method="post">
+                    <form class="signup" action="{{ url_for('register') }}" method="post">
                         {{ form.csrf_token() }}
                         <div class="form-group">{{ form.email(class="form-control", placeholder="Email") }}</div>
                         <div class="form-group">{{ form.password(class="form-control", placeholder="Password") }}</div>
@@ -36,5 +36,15 @@
             </div>
         </div>
     </div>
+
+    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
 
 {% endblock %}

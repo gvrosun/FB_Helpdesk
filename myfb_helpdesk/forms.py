@@ -11,7 +11,6 @@ class LoginForm(FlaskForm):
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), ])
     email = EmailField('Email', validators=[DataRequired()])
     password = PasswordField('New Password', [
         DataRequired(),
@@ -22,10 +21,5 @@ class RegistrationForm(FlaskForm):
 
     def check_email(self, field):
         if User.query.filter_by(email=field.data).first():
-            return False
-        return True
-
-    def check_username(self, field):
-        if User.query.filter_by(username=field.data).first():
             return False
         return True
