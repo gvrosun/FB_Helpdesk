@@ -55,7 +55,12 @@ def register():
 
 @app.route('/fb_login')
 def fb_login():
-    render_template('fb_login.html')
+    if not facebook.authorized:
+        return redirect(url_for("facebook.login"))
+    resp = facebook.get("/me")
+    assert resp.ok, resp.text
+    print(resp.json())
+    return "You are {name} on Facebook".format(name=resp.json()["name"])
 
 
 @app.route('/fb_signup')
@@ -74,12 +79,7 @@ def logout():
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    if not facebook.authorized:
-        return redirect(url_for("facebook.login"))
-    resp = facebook.get("/me")
-    assert resp.ok, resp.text
-    return "You are {name} on Facebook".format(name=resp.json()["name"])
-    # return render_template('dashboard.html')
+    return render_template('dashboard.html')
 
 
 if __name__ == '__main__':
