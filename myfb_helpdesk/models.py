@@ -10,8 +10,10 @@ def load_user(user_id):
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String, unique=True, index=True)
-    password_hash = db.Column(db.String)
+    name = db.String(db.String)
+    fb_id = db.String(db.Integer)
+    email = db.Column(db.String, unique=True, index=True, nullable=False)
+    password_hash = db.Column(db.String, nullable=False)
 
     def __init__(self, email, password):
         self.email = email

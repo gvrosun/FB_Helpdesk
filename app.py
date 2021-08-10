@@ -16,7 +16,7 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if session.get('login'):
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('fb_login'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -24,7 +24,7 @@ def login():
             flash('Success')
             session['login'] = True
             login_user(user)
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('fb_login'))
         else:
             flash('Failed')
     return render_template('login.html', form=form)
@@ -33,7 +33,7 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if session.get('login'):
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('fb_login'))
     form = RegistrationForm()
     if form.submit.data:
         check_email = form.check_email(form.email)
@@ -47,7 +47,7 @@ def register():
             login_user(user)
             flash('register_success')
             session['login'] = True
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('fb_login'))
         else:
             flash('Email already exists')
     return render_template('register.html', form=form)
@@ -55,12 +55,19 @@ def register():
 
 @app.route('/fb_login')
 def fb_login():
+    user = User.query.filter_by(email=current_user.email).first()
     if not facebook.authorized:
         return redirect(url_for("facebook.login"))
+    else:
+        if user.fb_id:
+            redirect(url_for('dashboard'))
+
     resp = facebook.get("/me")
     assert resp.ok, resp.text
-
-    return "You are {name} on Facebook".format(name=resp.json()["name"])
+    user.name = resp.json()["name"]
+    user.fb_id = resp.json()["id"]
+    db.session.commit()
+    return render_template('dashboard.html')
 
 
 @app.route('/fb_signup')

@@ -3,7 +3,7 @@ from flask_login import LoginManager
 import os
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
+from flask_dance.contrib.facebook import make_facebook_blueprint
 
 
 app = Flask(__name__)
