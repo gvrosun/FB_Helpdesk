@@ -3,6 +3,7 @@ from myfb_helpdesk.forms import LoginForm, RegistrationForm
 from myfb_helpdesk.models import User
 from flask import render_template, redirect, url_for, flash, session, request
 from flask_login import login_user, login_required, logout_user, current_user
+from flask_dance.contrib.facebook import facebook
 import requests
 import json
 
@@ -73,28 +74,7 @@ def logout():
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    verify_token = "12345"
-    if 'hub.mode' in request.args:
-        mode = request.args.get('hob.mode')
-        print(mode)
-    if 'hub.verify_token' in request.args:
-        token = request.args.get('hub.verify_token')
-        print(token)
-    if 'hub.challenge' in request.args:
-        challenge = request.args.get('hub.challenge')
-        print(challenge)
-    if 'hub.mode' in request.args and 'hub.verify_token' in request.args:
-        mode = request.args.get('hub.mode')
-        token = request.args.get('hub.verify_token')
-
-        if mode == 'subscribe' and token == verify_token:
-            print('WEBHOOK VERIFIED')
-            challenge = request.args.get('hub.challenge')
-            return challenge, 200
-        else:
-            return 'ERROR', 403
-
-    return "something", 200
+    return render_template(url_for('dashboard.html'))
 
 
 if __name__ == '__main__':

@@ -3,6 +3,7 @@ from flask_login import LoginManager
 import os
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
 
 
 app = Flask(__name__)
@@ -16,8 +17,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'da
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Facebook
-app.config['FACEBOOK_OAUTH_CLIENT_ID'] = os.environ.get('app_id')
-app.config['FACEBOOK_OAUTH_CLIENT_SECRET'] = os.environ.get('secret_key')
+app.config["FACEBOOK_OAUTH_CLIENT_ID"] = os.environ.get("FACEBOOK_OAUTH_CLIENT_ID")
+app.config["FACEBOOK_OAUTH_CLIENT_SECRET"] = os.environ.get("FACEBOOK_OAUTH_CLIENT_SECRET")
 
 # Login Manager
 login_manager = LoginManager()
@@ -27,3 +28,7 @@ login_manager.login_view = 'login'
 # Setup SQL
 db = SQLAlchemy(app)
 Migrate(app, db)
+
+# Register facebook
+facebook_bp = make_facebook_blueprint()
+app.register_blueprint(facebook_bp, url_prefix="/login")
