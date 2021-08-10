@@ -15,8 +15,10 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String, unique=True, index=True, nullable=False)
     password_hash = db.Column(db.String, nullable=False)
 
-    def __init__(self, email, password):
+    def __init__(self, email, password, name, fb_id):
         self.email = email
+        self.name = name
+        self.fb_id = fb_id
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
