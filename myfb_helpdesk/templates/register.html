@@ -1,0 +1,40 @@
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="../static/css/login.css">
+</head>
+
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto py-4 px-0">
+                <div class="card p-0">
+                    <div class="card-title text-center">
+                        <h5 class="mt-5">HEY, THERE</h5> <small class="para">Login to your FB_Helper_desk account below.</small>
+                    </div>
+                    <form class="signup" method="post">
+                        {{ form.csrf_token() }}
+                        <div class="form-group">{{ form.email(class="form-control", placeholder="Email") }}</div>
+                        <div class="form-group">{{ form.password(class="form-control", placeholder="Password") }}</div>
+                        <div class="form-group">{{ form.confirm(class="form-control", placeholder="confirm Password") }}</div>
+                        {{ form.submit(class="btn btn-primary") }}
+                        <div class="row">
+                            <div class="col-6 col-sm-6"> <a href="#">
+                                    <p class="text-left pt-2 ml-1">Forgot password?</p>
+                                </a> </div>
+                            <div class="col-6 col-sm-6"> <a href="{{ url_for('login') }}">
+                                    <p class="text-right pt-2 mr-1">Sign in Now</p>
+                                </a> </div>
+                        </div> <span class="text-center">Or</span> <span class="text-center pt-3">Register Using</span>
+                        <div class="row">
+                            <div class="d-flex mx-auto pt-1 pb-3"> <a href="#"></a> <a href="{{ url_for('fb_register') }}"><i class="fa fa-facebook-square fa-2x"></i></a> <a href="#"></a> </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
