@@ -57,9 +57,9 @@ def register():
 def fb_login():
     if not facebook.authorized:
         return redirect(url_for("facebook.login"))
-    resp = facebook.get("/me")
+    resp = facebook.get("/user")
     assert resp.ok, resp.text
-    print(resp.json())
+
     return "You are {name} on Facebook".format(name=resp.json()["name"])
 
 
