@@ -40,6 +40,7 @@ def register():
         if check_email:
             user = User(
                 email=form.email.data,
+
                 password=form.password.data
             )
             db.session.add(user)

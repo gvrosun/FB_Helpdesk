@@ -15,7 +15,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String, unique=True, index=True, nullable=False)
     password_hash = db.Column(db.String, nullable=False)
 
-    def __init__(self, email, password, name, fb_id):
+    def __init__(self, email, password, name=None, fb_id=0):
         self.email = email
         self.name = name
         self.fb_id = fb_id
